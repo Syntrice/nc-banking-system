@@ -10,14 +10,14 @@ namespace NcBankingSystem
     {
         public int AccountNumber { get; private set; }
         public int Balance { get; private set; }
-        public string Name { get; private set; }
+        public string OwnerName { get; private set; }
 
         public int ArrangedOverdraft { get; private set; }
 
-        public BankAccount(int accountNumber, string name, int arrangedOverdraft)
+        public BankAccount(int accountNumber, string ownerName, int arrangedOverdraft)
         {
             AccountNumber = accountNumber;
-            Name = name;
+            OwnerName = ownerName;
             Balance = 0;
             ArrangedOverdraft = arrangedOverdraft;
         }
@@ -27,13 +27,20 @@ namespace NcBankingSystem
             Balance += amount;
         }
 
-        public void Withdraw(int amount)
+        public bool Withdraw(int amount)
         {
             int newBalance = Balance - amount;
             if (newBalance >= ArrangedOverdraft * -1)
             {
                 Balance = newBalance;
+                return true;
             }
+            return false;
+        }
+
+        public override string ToString()
+        {
+            return $"Account Number: {AccountNumber}, Owner Name: {OwnerName}, Balance: {Balance}, Arranged Overdraft: {ArrangedOverdraft}";
         }
     }
 }

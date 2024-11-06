@@ -21,5 +21,10 @@ namespace NcBankingSystem
             Amount = amount;
             Timestamp = timestamp;
         }
+
+        public override string ToString()
+        {
+            return $"Transaction Id: {Id}, Type: {Type}, Amount: {Amount}, Timestamp: {Timestamp}";
+        }
     }
 }
