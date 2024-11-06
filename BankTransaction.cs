@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NcBankingSystem
+﻿namespace NcBankingSystem
 {
     internal class BankTransaction
     {
+        public int Id { get; }
+        public string Type { get; }
+        public int Amount { get; }
+        public string Timestamp { get; }
 
-        private int transactionId;
-        private string type;
-        private int amount;
-        private string timestamp;
+        public BankTransaction(int id, string type, int amount, string timestamp)
+        {
+            Id = id;
+            Type = type;
+            Amount = amount;
+            Timestamp = timestamp;
+        }
 
-        public int TransactionId { get { return transactionId; } }
-        public string Type { get { return type; } } 
-            
-        public int Amount { get { return amount; } }
-
-        public string Timestamp { get { return timestamp; } }
-
+        public override string ToString()
+        {
+            return $"Transaction Id: {Id}, Type: {Type}, Amount: {Amount}, Timestamp: {Timestamp}";
+        }
     }
 }
