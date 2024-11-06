@@ -43,6 +43,10 @@
             Console.WriteLine("Current accounts status:");
             bankingSystem.ListAccounts();
 
+            Console.WriteLine();
+            Console.WriteLine("Large transaction notifications:");
+            bankingSystem.ListLargeTransactions();
+
 
         }
     }

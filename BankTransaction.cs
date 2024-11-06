@@ -6,7 +6,6 @@
         public string Type { get; }
         public int Amount { get; }
         public string Timestamp { get; }
-             
 
         public BankTransaction(int id, string type, int amount, string timestamp)
         {

@@ -1,15 +1,19 @@
-﻿namespace NcBankingSystem
+﻿using System.Security.Cryptography.X509Certificates;
+
+namespace NcBankingSystem
 {
     internal class BankingSystem
     {
 
         private List<BankAccount> accounts;
         private Dictionary<int, List<BankTransaction>> accountTransactionLog;
+        private BankingNotificationLog notificationLog;
 
         public BankingSystem()
         {
             accounts = new List<BankAccount>();
             accountTransactionLog = new Dictionary<int, List<BankTransaction>>();
+            notificationLog = new BankingNotificationLog();
         }
 
         /// <summary>
@@ -33,8 +37,10 @@
         /// <param name="amount">The deposit amount</param>
         public void PerformDeposit(int accountNumber, int amount)
         {
+
             accounts[accountNumber].Deposit(amount);
             NewTransaction(accountNumber, "Deposit", amount);
+
         }
 
         /// <summary>
@@ -80,6 +86,14 @@
             }
         }
 
+        /// <summary>
+        /// Print all large transaction notifications
+        /// </summary>
+        public void ListLargeTransactions()
+        {
+            notificationLog.PrintLargeTransactionNotifications();
+        }
+
         private void NewTransaction(int accountNumber, string type, int amount)
         {
             // create a new transaction list if no transactions have been logged for this account
@@ -93,6 +107,11 @@
 
             BankTransaction transaction = new BankTransaction(transactionId, type, amount, DateTime.Now.ToString());
             accountTransactionLog[accountNumber].Add(transaction);
+
+            if (amount >= notificationLog.LargeTransactionThreshhold)
+            {
+                notificationLog.LogLargeTransaction(accountNumber, transaction);
+            }
         }
     }
 }
