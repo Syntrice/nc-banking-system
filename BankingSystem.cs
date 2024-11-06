@@ -61,6 +61,10 @@ namespace NcBankingSystem
             }
         }
 
+        /// <summary>
+        /// Adds interest to all accounts according to the currently set
+        /// Interest rate.
+        /// </summary>
         public void AddInterestToAccounts()
         {
             foreach (BankAccount account in accounts)
