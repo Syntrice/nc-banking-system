@@ -13,6 +13,8 @@
             Console.WriteLine("Accounts created:");
             bankingSystem.ListAccounts();
 
+            bankingSystem.PerformDeposit(0, 1000);
+
             Console.WriteLine();
             Console.WriteLine("Now performing transactions on Ben's account");
             bankingSystem.PerformDeposit(2, 500);
@@ -46,6 +48,15 @@
             Console.WriteLine();
             Console.WriteLine("Large transaction notifications:");
             bankingSystem.ListLargeTransactions();
+
+            Console.WriteLine();
+            Console.WriteLine("Interest rate example:");
+            bankingSystem.ListAccounts();
+            bankingSystem.AddInterestToAccounts();
+            bankingSystem.ListAccounts();
+            bankingSystem.InterestRate = 0.05f;
+            bankingSystem.AddInterestToAccounts();
+            bankingSystem.ListAccounts();
 
 
         }

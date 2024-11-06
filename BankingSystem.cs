@@ -9,11 +9,14 @@ namespace NcBankingSystem
         private Dictionary<int, List<BankTransaction>> accountTransactionLog;
         private BankingNotificationLog notificationLog;
 
+        public float InterestRate { get; set; }
+
         public BankingSystem()
         {
             accounts = new List<BankAccount>();
             accountTransactionLog = new Dictionary<int, List<BankTransaction>>();
             notificationLog = new BankingNotificationLog();
+            InterestRate = 0.00f; 
         }
 
         /// <summary>
@@ -55,6 +58,15 @@ namespace NcBankingSystem
             if (success)
             {
                 NewTransaction(accountNumber, "Withdrawal", amount);
+            }
+        }
+
+        public void AddInterestToAccounts()
+        {
+            foreach (BankAccount account in accounts)
+            {
+                int interest = (int)Math.Round(account.Balance * InterestRate, 0);
+                PerformDeposit(account.AccountNumber, interest);
             }
         }
 
