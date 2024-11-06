@@ -8,5 +8,18 @@ namespace NcBankingSystem
 {
     internal class BankTransaction
     {
+        public int Id { get; }
+        public string Type { get; }
+        public int Amount { get; }
+        public string Timestamp { get; }
+             
+
+        public BankTransaction(int id, string type, int amount, string timestamp)
+        {
+            Id = id;
+            Type = type;
+            Amount = amount;
+            Timestamp = timestamp;
+        }
     }
 }
