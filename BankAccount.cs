@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NcBankingSystem
+﻿namespace NcBankingSystem
 {
     internal class BankAccount
     {
@@ -14,6 +8,7 @@ namespace NcBankingSystem
 
         public int ArrangedOverdraft { get; private set; }
 
+
         public BankAccount(int accountNumber, string ownerName, int arrangedOverdraft)
         {
             AccountNumber = accountNumber;
@@ -22,13 +17,26 @@ namespace NcBankingSystem
             ArrangedOverdraft = arrangedOverdraft;
         }
 
+        /// <summary>
+        /// Deposit a specified value into the account
+        /// </summary>
+        /// <param name="amount">The amount to deposit</param>
         public void Deposit(int amount)
         {
             Balance += amount;
         }
 
+        /// <summary>
+        /// Withdraw a specified amount from the account. 
+        /// This is only carried out should the withdrawal not result in the 
+        /// account balance falling below the arranged overdraft
+        /// </summary>
+        /// <param name="amount">The amount to withdraw</param>
+        /// <returns>A boolean value indicating whether the amount was 
+        /// succesfully withdrawn</returns>
         public bool Withdraw(int amount)
         {
+
             int newBalance = Balance - amount;
             if (newBalance >= ArrangedOverdraft * -1)
             {

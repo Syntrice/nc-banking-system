@@ -12,14 +12,62 @@
             accountTransactionLog = new Dictionary<int, List<BankTransaction>>();
         }
 
-        public void CreateAccount(string name, int arrangedOverdraft)
+        /// <summary>
+        /// Create a new bank account with the specified owner name and overdraft. The account will be 
+        /// added to this banking system's database of accounts, and given an account number automatically.
+        /// </summary>
+        /// <param name="ownerName">The name of the account owner</param>
+        /// <param name="arrangedOverdraft">The maximum allowed overdraft for withdrawals</param>
+        public void CreateAccount(string ownerName, int arrangedOverdraft)
         {
             // use the current length of the accounts list to populate account numbers
-            int accountNumber = accounts.Count; 
-            BankAccount account = new BankAccount(this.accounts.Count, name, arrangedOverdraft);
+            int accountNumber = accounts.Count;
+            BankAccount account = new BankAccount(this.accounts.Count, ownerName, arrangedOverdraft);
             accounts.Add(account);
         }
 
+        /// <summary>
+        /// Carry out a deposit on the account in the database with the specified account number.
+        /// </summary>
+        /// <param name="accountNumber">The number of the account to add a deposit to</param>
+        /// <param name="amount">The deposit amount</param>
+        public void PerformDeposit(int accountNumber, int amount)
+        {
+            accounts[accountNumber].Deposit(amount);
+            NewTransaction(accountNumber, "Deposit", amount);
+        }
+
+        /// <summary>
+        /// Carry out a withdrawal on the account with the specified account number
+        /// </summary>
+        /// <param name="accountNumber">The number of the account to withdraw from</param>
+        /// <param name="amount">The amount to withdraw</param>
+        public void PerformWithdrawal(int accountNumber, int amount)
+        {
+            bool success = accounts[accountNumber].Withdraw(amount);
+
+            if (success)
+            {
+                NewTransaction(accountNumber, "Withdrawal", amount);
+            }
+        }
+
+        /// <summary>
+        /// Print out the information of all accounts stored in this BankingSystem
+        /// </summary>
+        public void ListAccounts()
+        {
+            for (int i = 0; i < accounts.Count; i++)
+            {
+                Console.WriteLine(accounts[i].ToString());
+            }
+        }
+
+        /// <summary>
+        /// For the specified account number, print out all transactions accociated with that
+        /// account.
+        /// </summary>
+        /// <param name="accountNumber">The number of the account to read transactions from</param>
         public void ListTransactions(int accountNumber)
         {
             List<BankTransaction> transaction;
@@ -29,34 +77,6 @@
                 {
                     Console.WriteLine(transaction[i]);
                 }
-            }
-        }
-
-        public void ListAccounts()
-        {
-            for (int i = 0; i < accounts.Count; i++)
-            {
-                Console.WriteLine(accounts[i].ToString());
-            }
-        }
-
-        public void PerformDeposit(int accountNumber, int amount)
-        {
-            accounts[accountNumber].Deposit(amount);
-            NewTransaction(accountNumber, "Deposit", amount);
-
-            // use the current length of the transaction list to populate account numbers
-
-
-        }
-
-        public void PerformWithdrawel(int accountNumber, int amount)
-        {
-            bool success = accounts[accountNumber].Withdraw(amount);
-
-            if (success)
-            {
-                NewTransaction(accountNumber, "Withdrawal", amount);
             }
         }
 
