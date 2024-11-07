@@ -38,11 +38,12 @@ namespace NcBankingSystem
         /// </summary>
         /// <param name="accountNumber">The number of the account to add a deposit to</param>
         /// <param name="amount">The deposit amount</param>
-        public void PerformDeposit(int accountNumber, int amount)
+        /// <param name="category">The category of the transaction</param>
+        public void PerformDeposit(int accountNumber, int amount, TransactionCategory category = TransactionCategory.Misc)
         {
 
             accounts[accountNumber].Deposit(amount);
-            NewTransaction(accountNumber, "Deposit", amount);
+            NewTransaction(accountNumber, TransactionType.Deposit, category, amount);
 
         }
 
@@ -51,13 +52,14 @@ namespace NcBankingSystem
         /// </summary>
         /// <param name="accountNumber">The number of the account to withdraw from</param>
         /// <param name="amount">The amount to withdraw</param>
-        public void PerformWithdrawal(int accountNumber, int amount)
+        /// <param name="category">The category of the transaction</param>
+        public void PerformWithdrawal(int accountNumber, int amount, TransactionCategory category = TransactionCategory.Misc)
         {
             bool success = accounts[accountNumber].Withdraw(amount);
 
             if (success)
             {
-                NewTransaction(accountNumber, "Withdrawal", amount);
+                NewTransaction(accountNumber, TransactionType.Deposit, category, amount);
             }
         }
 
@@ -110,7 +112,7 @@ namespace NcBankingSystem
             notificationLog.PrintLargeTransactionNotifications();
         }
 
-        private void NewTransaction(int accountNumber, string type, int amount)
+        private void NewTransaction(int accountNumber, TransactionType type, TransactionCategory category, int amount)
         {
             // create a new transaction list if no transactions have been logged for this account
             if (!accountTransactionLog.ContainsKey(accountNumber))
@@ -121,7 +123,7 @@ namespace NcBankingSystem
             // use the current length of the transaction list to populate account numbers
             int transactionId = accountTransactionLog[accountNumber].Count;
 
-            BankTransaction transaction = new BankTransaction(transactionId, type, amount, DateTime.Now.ToString());
+            BankTransaction transaction = new BankTransaction(transactionId, type, category, amount, DateTime.Now.ToString());
             accountTransactionLog[accountNumber].Add(transaction);
 
             if (amount >= notificationLog.LargeTransactionThreshhold)
